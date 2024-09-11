@@ -1,4 +1,4 @@
-import React, { useContext, useReducer, useState } from 'react';
+import React, { useCallback, useContext, useReducer, useState } from 'react';
 import { PartyContext } from '../../providers/PartyProvider';
 import { ProfileContext } from '../../providers/ProfileProvider';
 import { generateRandomTodos } from '../../utils/utils';
@@ -28,29 +28,25 @@ const Todos = () => {
     setNewTodoText('');
   };
 
-  const formatTodoText = (text, index) => {
+  const formatTodoText = useCallback((text, index) => {
     return `${text.toLowerCase()} (${index + 1} of 500)`;
-  };
+  }, []);
 
   return (
     <div className={styles.container}>
-      <Confetti
-        size={size}
-        showConfetti={showConfetti}
-        setShowConfetti={setShowConfetti}
-      />
+      <Confetti size={size} showConfetti={showConfetti} setShowConfetti={setShowConfetti} />
       <section className={styles.newTodoSection}>
         <form onSubmit={onAddNewTodo}>
-          <label htmlFor='newTodo'>
+          <label htmlFor="newTodo">
             <input
-              type='text'
-              name='newTodo'
-              id='newTodo'
+              type="text"
+              name="newTodo"
+              id="newTodo"
               value={newTodoText}
               onChange={(e) => {
                 setNewTodoText(e.target.value);
               }}
-              placeholder='What do you have to do today?'
+              placeholder="What do you have to do today?"
             />
           </label>
         </form>

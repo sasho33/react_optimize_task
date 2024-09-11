@@ -1,23 +1,13 @@
 import React from 'react';
 import styles from './Todos.module.css';
 
-const TodoItem = (props) => {
-  const {
-    todo,
-    animationsEnabled,
-    setShowConfetti,
-    dispatch,
-    index,
-    formatTodoText,
-  } = props;
+const TodoItem = React.memo((props) => {
+  const { todo, animationsEnabled, setShowConfetti, dispatch, index, formatTodoText } = props;
 
   return (
     <li className={styles.todo}>
       <section className={styles.author}>
-        <span
-          title={todo.user.name}
-          aria-label={`Created by ${todo.user.name}`}
-        >
+        <span title={todo.user.name} aria-label={`Created by ${todo.user.name}`}>
           <div>{todo.user.icon}</div>
           <div>{todo.user.name}</div>
         </span>
@@ -46,7 +36,7 @@ const TodoItem = (props) => {
           {todo.done ? '✅' : '⚪️'}
         </button>
         <button
-          aria-label='Delete task'
+          aria-label="Delete task"
           onClick={() => {
             dispatch({
               type: 'delete',
@@ -59,6 +49,6 @@ const TodoItem = (props) => {
       </div>
     </li>
   );
-};
+});
 
 export default TodoItem;

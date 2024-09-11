@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useMemo } from 'react';
 import useToggle from '../../hooks/useToggle';
 import { ProfileContext } from '../../providers/ProfileProvider';
 import { checkUsernameValidity } from './checkUsernameValidity.js';
@@ -12,8 +12,7 @@ const Profile = () => {
     setCurrentUser,
   } = useContext(ProfileContext);
   const [showEditForm, toggleShowEditForm] = useToggle(false);
-  const [showUsernameValidation, toggleShowUsernameValidation] =
-    useToggle(false);
+  const [showUsernameValidation, toggleShowUsernameValidation] = useToggle(false);
   const [username, setUsername] = useState(name);
   const [iconOptions, setIconOptions] = useState();
 
@@ -26,7 +25,9 @@ const Profile = () => {
     load();
   }, []);
 
-  const isUsernameValid = checkUsernameValidity(name);
+  const isUsernameValid = useMemo(() => {
+    checkUsernameValidity(name);
+  }, [name]);
 
   const onSaveProfile = (e) => {
     e.preventDefault();
@@ -51,21 +52,18 @@ const Profile = () => {
       {showEditForm && (
         <aside className={styles.container}>
           <form onSubmit={onSaveProfile}>
-            <label htmlFor='username'>
+            <label htmlFor="username">
               <div className={styles.title}>
                 Username
                 <button onClick={onToggleUsernameValidation}>?</button>
               </div>
               {showUsernameValidation && (
-                <>
-                  The username must not be a duplicate of any existing user
-                  name.
-                </>
+                <>The username must not be a duplicate of any existing user name.</>
               )}
               <input
-                type='text'
-                id='username'
-                name='username'
+                type="text"
+                id="username"
+                name="username"
                 onChange={(e) => setUsername(e.target.value)}
                 value={username}
               />
@@ -73,8 +71,8 @@ const Profile = () => {
             </label>
             {iconOptions && (
               <>
-                <label htmlFor='icon'>Icon</label>
-                <select name='icon' id='icon' defaultValue={icon}>
+                <label htmlFor="icon">Icon</label>
+                <select name="icon" id="icon" defaultValue={icon}>
                   {iconOptions.map((icon) => (
                     <option key={icon} value={icon}>
                       {icon}
@@ -85,10 +83,10 @@ const Profile = () => {
             )}
 
             <div className={styles.actionsContainer}>
-              <button type='button' onClick={toggleShowEditForm}>
+              <button type="button" onClick={toggleShowEditForm}>
                 Cancel
               </button>
-              <button type='submit'>Save</button>
+              <button type="submit">Save</button>
             </div>
           </form>
         </aside>
